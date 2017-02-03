@@ -1,30 +1,11 @@
 #include "../inc/ls.h"
 
-int is_regular_file(const char *path)
+int is_DIR(const char *path)
 {
     struct stat path_stat;
 	
 	stat(path, &path_stat);
 	return (S_ISDIR(path_stat.st_mode));
-}
-
-void	setdir(char **argv)
-{
-	char *str;
-	char **dup;
-
-	dup = argv;
-	while (*dup)
-	{
-		if (dup)
-		{
-			str = ft_strjoin(".//", *dup);
-			printf("%s\n", str);
-			printf("Check: %d\n", is_regular_file(str));
-		}
-		dup++;
-	}
-	printf("\n");
 }
 
 char	**parsefiles(int a, char *path)
@@ -44,4 +25,28 @@ char	**parsefiles(int a, char *path)
 			*str++ = dp->d_name;
 	}
 	return ((char **)dup);
+}
+
+char	**getdir(char **argv)
+{
+	char *str;
+	char **info;
+	char **dup;
+
+	info = (char **)malloc(sizeof(char *) * 50);
+	dup = info;
+	while (*argv)
+	{
+		if ((*argv)[0])
+		{
+			str = ft_strjoin(".//", *argv);
+			if (!is_DIR(str))
+				ft_printf("./ft_ls: %s: No such file or directory", *argv);
+			else
+				*info++ = str;
+		}
+		argv++;
+	}
+	*info = 0;
+	return (dup);
 }

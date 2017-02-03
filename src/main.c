@@ -13,7 +13,7 @@ int		error()
 int	 main(int argc, char **argv)
 {
 	t_flags flags;
-	char	**list;
+	char 	**dirs;
 
 	flags = setzero();
 	if (argc == 0)
@@ -24,13 +24,21 @@ int	 main(int argc, char **argv)
 		if (argc > 1)
 			parseflags(argv, &flags);
 
-		list = parsefiles(flags.a, ".");
-
-		list = sort(list, flags.r);
-
-		printstuff(list, 0);
+		dirs = getdir(argv);
+		dirs = sort(dirs, flags.r);
 		
-		printf("\n\n");
+		int i;
+
+		i = 0;
+		while (dirs[i])
+		{
+			printf("DIR: %s\n", dirs[i]);
+			i++;
+		}
+		/*
+		info = parsefiles(flags.a, str);
+		info = sort(info , flags.r);
+		*/
 		printflags(flags);
 	}
 	return (0);

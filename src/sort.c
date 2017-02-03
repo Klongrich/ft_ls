@@ -21,26 +21,15 @@ char	**sort(char **str, int r)
 	i = -1;
 	while (i++ < size)
 	{
-			j = i;
+		j = i;
 		while(j++ < size)
 		{
-			if (r)
+			if ((r && strcmp(str[i], str[j]) < 0) || 
+				(!r && strcmp(str[i], str[j]) > 0))
 			{
-				if (strcmp(str[i], str[j]) < 0)
-				{
-					strcpy(temp, str[i]);
-					strcpy(str[i], str[j]);
-					strcpy(str[j], temp);
-				}
-			}
-			else
-			{
-				if (strcmp(str[i], str[j]) > 0)
-				{
-					strcpy(temp, str[i]);
-					strcpy(str[i], str[j]);
-					strcpy(str[j], temp);
-				}
+				strcpy(temp, str[i]);
+				strcpy(str[i], str[j]);
+				strcpy(str[j], temp);
 			}
 		}	
 	}	

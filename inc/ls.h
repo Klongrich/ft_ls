@@ -32,6 +32,8 @@ int		getlength(char **str);
 void	printstuff(char **str, int l);
 void	printflags(t_flags stuff);
 
+char 	**getdir(char **argv);
+
 t_flags	setzero();
 
 #endif
