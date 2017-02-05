@@ -1,14 +1,5 @@
 #include "../inc/ls.h"
 
-void	printflags(t_flags stuff)
-{
-	printf("a: %d\n", stuff.a);
-	printf("l: %d\n", stuff.l);
-	printf("r: %d\n", stuff.r);
-	printf("R: %d\n", stuff.recr);
-	printf("t: %d\n", stuff.t);
-}
-
 t_flags		setzero()
 {
 	t_flags flags;
@@ -20,6 +11,14 @@ t_flags		setzero()
 	flags.t = 0;
 
 	return (flags);
+}
+
+int		illegalopt(char c)
+{
+	ft_putstr_fd("ls: illegal options -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]", 2);
+	return (-1);
 }
 
 int		parseflags(char **str, t_flags *flags)
@@ -41,8 +40,10 @@ int		parseflags(char **str, t_flags *flags)
 				flags->recr = 1;
 			else if (**str == 't')
 				flags->t = 1;
+			else if (**str == '1')
+				flags->one = 1;
 			else
-				return (0);
+				return (illegalopt(**str));
 			(*str)++;
 		}
 		str++;	

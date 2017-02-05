@@ -10,13 +10,30 @@ int		getlength(char **str)
 	return (i);
 }
 
-char	**sort(char **str, int r)
+/*
+char	**timesort(char **str, int t)
+{
+	char *time;
+	char *start
+	time = (char *)malloc(sizeof(char) * 40);
+	start = time;
+	time = ctime(&statbuf.st_mtime);
+	time += 3;
+	
+	printf("%.13s %s\n", *str);
+	free(start);
+}
+*/
+
+char	**sort(char **str, int r, int t)
 {
 	int i;
 	int j;
 	int size;
 	char temp[500];
 
+	if (t)
+		return (0);
 	size = getlength(str) - 1;
 	i = -1;
 	while (i++ < size)
