@@ -8,6 +8,7 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 		int 	lentwo;
 		
 		len = 0;
+		//argv = sort(argv, flags);
 		dirs = getinfo(argv, &files);
 		len = getlength(dirs);
 		lentwo = len;
@@ -58,7 +59,8 @@ int	 main(int argc, char **argv)
 	else
 	{			 
 		argv++;
-		if ((!*argv || (argv[argc - 2][0] == '-')) && argv[argc - 2][1])
+		if ((!*argv || (argv[argc - 2][0] == '-')) && argv[argc - 2][1] 
+			&& ft_strcmp(argv[argc - 2], "--"))
 			runblank(argv, files);
 		else
 		{

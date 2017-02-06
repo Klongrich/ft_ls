@@ -10,20 +10,24 @@ int		getlength(char **str)
 	return (i);
 }
 
-/*
-char	**timesort(char **str, int t)
+char	**timesort(char **str)
 {
 	char *time;
-	char *start
+	char *start;
+	struct stat statbuf;
+
+	stat(".//", &statbuf);
 	time = (char *)malloc(sizeof(char) * 40);
 	start = time;
 	time = ctime(&statbuf.st_mtime);
 	time += 3;
 	
-	printf("%.13s %s\n", *str);
+	ft_printf("%.13s %s\n", time,  *str);
 	free(start);
+
+
+	return (0);
 }
-*/
 
 char	**sort(char **str, t_flags flags)
 {
@@ -33,7 +37,7 @@ char	**sort(char **str, t_flags flags)
 	char temp[500];
 
 	if (flags.t)
-		return (0);
+		return (timesort(str));
 	size = getlength(str) - 1;
 	i = -1;
 	while (i++ < size)

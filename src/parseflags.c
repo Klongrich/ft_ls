@@ -9,6 +9,7 @@ t_flags		setzero()
 	flags.r = 0;
 	flags.recr = 0;
 	flags.t = 0;
+	flags.zero = 0;
 
 	return (flags);
 }
@@ -27,6 +28,15 @@ int		parseflags(char **str, t_flags *flags)
 	{
 		if ((*str)[0] != '-' || !(*str)[1])
 			return (0);
+		if (**str == '-' && !(*str))
+			return (0);
+		if (!ft_strcmp(*str, "--"))
+		{	
+			while (**str)
+				(*str)++;
+			return (0);
+			break;
+		}
 		(*str)++;
 		while (**str)
 		{

@@ -26,8 +26,7 @@ typedef struct		flags
 	int				recr;
 	int				t;
 	int				one;
-	int				dash;
-	int				star;
+	int				zero;
 }					t_flags;
 
 typedef struct		lengts
