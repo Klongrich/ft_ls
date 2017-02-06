@@ -25,14 +25,14 @@ char	**timesort(char **str, int t)
 }
 */
 
-char	**sort(char **str, int r, int t)
+char	**sort(char **str, t_flags flags)
 {
 	int i;
 	int j;
 	int size;
 	char temp[500];
 
-	if (t)
+	if (flags.t)
 		return (0);
 	size = getlength(str) - 1;
 	i = -1;
@@ -41,8 +41,8 @@ char	**sort(char **str, int r, int t)
 		j = i;
 		while(j++ < size)
 		{
-			if ((r && strcmp(str[i], str[j]) < 0) || 
-				(!r && strcmp(str[i], str[j]) > 0))
+			if ((flags.r && strcmp(str[i], str[j]) < 0) || 
+				(!flags.r && strcmp(str[i], str[j]) > 0))
 			{
 				strcpy(temp, str[i]);
 				strcpy(str[i], str[j]);

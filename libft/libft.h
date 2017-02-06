@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
@@ -24,7 +25,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				ft_bzero(void *s, size_t n);
 int					ft_atoi(const char *str);
-size_t				ft_strlen(const char *str);
+int				ft_strlen(const char *str);
 char				*ft_strdup(const char *str);
 char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strncpy(char *dst, const char *src, size_t len);
@@ -89,5 +90,7 @@ void				ft_putcharone(char c);
 void				ft_putchartwo(char c);
 void				ft_putcharthree(char c);
 void				ft_putcharfour(char c);
+int					ft_numlen(int n);
+void				ft_printf(char *str, ...);
 
 #endif

@@ -11,17 +11,17 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 		dirs = getinfo(argv, &files);
 		len = getlength(dirs);
 		lentwo = len;
-		files = sort(files, flags.r, flags.t);
-		dirs = sort(dirs, flags.r, flags.t);
-		printstuff(files, flags.l);
+		files = sort(files, flags);
+		dirs = sort(dirs, flags);
+		printstuff(files, flags);
 		while (*dirs)
 		{
 			dup = dirs;
 			if (len != 1)
 				ft_printf("%~:\n", *dirs);
-			info = parsefiles(*dirs, flags.a);
-			info = sort(info, flags.r, flags.t);
-			printstuff(info, flags.l);
+			info = parsefiles(*dirs, flags);
+			info = sort(info, flags);
+			printstuff(info, flags);
 			if (lentwo != 1)
 				ft_printf("\n");
 			lentwo--;
@@ -36,9 +36,9 @@ int		runblank(char **argv, char **files)
 	flags = setzero();
 	if (parseflags(argv, &flags) == -1)
 		return (0);
-	files = parsefiles(".", flags.a);
-	files = sort(files, flags.r, flags.t);
-	printstuff(files, flags.l);
+	files = parsefiles(".", flags);
+	files = sort(files, flags);
+	printstuff(files, flags);
 	free(files);
 	return (0);
 }

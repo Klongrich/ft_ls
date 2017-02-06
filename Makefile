@@ -1,5 +1,5 @@
 NAME = ft_ls
-OBJ = main.o ft_printf.o sort.o parseflags.o parsefiles.o print.o
+OBJ = main.o sort.o parseflags.o parsefiles.o print.o
 INC = inc/ls.h
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a

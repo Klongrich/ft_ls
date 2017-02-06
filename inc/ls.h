@@ -27,6 +27,7 @@ typedef struct		flags
 	int				t;
 	int				one;
 	int				dash;
+	int				star;
 }					t_flags;
 
 typedef struct		lengts
@@ -35,14 +36,14 @@ typedef struct		lengts
 	int				name;
 	int				group;
 	int				size;
-}
+}					t_lengths;
 
 void	ft_printf(char *str, ...);
-char	**parsefiles(char *path, int a);
-char	**sort(char **str, int r, int t);
+char	**parsefiles(char *path, t_flags flags);
+char	**sort(char **str, t_flags flags);
 int		parseflags(char **str, t_flags *flags);
 int		getlength(char **str);
-void	printstuff(char **str, int l);
+void	printstuff(char **str, t_flags flags);
 char	**getinfo(char **argv, char ***file);
 t_flags	setzero();
 

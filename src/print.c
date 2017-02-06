@@ -28,21 +28,53 @@ void	printtime(char *str)
 		time += 3;
 
 		printf("%.*s %s\n", 13, time, str);
-		//free(start);
+		free(start);
 }
 
-lengths		sizes(char **str)
+t_lengths		sizes(char **str)
 {
 	int i;
 	struct stat statbuf;
+	struct passwd  *pwd;
+	struct group   *grp;
+
+	t_lengths	m;
 
 	i = 0;
+	m.links = 0;
+	m.name = 0;
+	m.group = 0;
+	m.size = 0;
 	while (str[i])
 	{
 		stat(str[i], &statbuf);
-		
 
+		if (ft_numlen(statbuf.st_nlink) > m.links)
+			m.links = ft_numlen(statbuf.st_nlink);
+		
+		pwd = getpwuid(statbuf.st_uid);
+		if (ft_strlen(pwd->pw_name) > m.name)
+			m.name = ft_strlen(pwd->pw_name);
+		
+		if ((grp = getgrgid(statbuf.st_gid)) != NULL)
+		{
+			if (ft_strlen(grp->gr_name) > m.group)
+				m.group = ft_strlen(grp->gr_name);
+		}
+		else
+		{
+			if (ft_numlen(statbuf.st_gid) > m.group)
+				m.group = ft_numlen(statbuf.st_gid);
+		}
+		
+		if (ft_strlen(grp->gr_name) > m.group)
+			m.group = ft_strlen(grp->gr_name);
+		
+		if (ft_numlen(statbuf.st_size) > m.size)
+			m.size = ft_numlen(statbuf.st_size);
+		i++;
 	}
+	return (m);
 }
 
 void	complexprint(char **str)
@@ -50,7 +82,7 @@ void	complexprint(char **str)
 	struct stat	 statbuf;
 	struct passwd  *pwd;
 	struct group   *grp;
-	struct lengths	m;
+	t_lengths		m;
 	int i;
 
 	i = 0;
@@ -59,32 +91,32 @@ void	complexprint(char **str)
 	{
 		stat(str[i], &statbuf);
 		printpermissons(statbuf);
-		printf("%*d" , 3, statbuf.st_nlink);
+		ft_printf("%*d" , m.links + 2 , statbuf.st_nlink);
 
 		if ((pwd = getpwuid(statbuf.st_uid)) != NULL)
-			printf("%*s",9, pwd->pw_name);
+			ft_printf("%*s", m.name + 1, pwd->pw_name);
 		else
-			printf("%*d", 9, statbuf.st_uid);
+			ft_printf("%*d", m.name + 1, statbuf.st_uid);
 
 		if ((grp = getgrgid(statbuf.st_gid)) != NULL)
-			printf("%*s", 9, grp->gr_name);
+			ft_printf("%*s", m.group + 2, grp->gr_name);
 		else
-			printf("%*d", 9, statbuf.st_gid);
+			ft_printf("%*d", m.group + 2, statbuf.st_gid);
 
-		printf("%*d", 6, (int)statbuf.st_size);
+		ft_printf("%*d", m.size + 2, (int)statbuf.st_size);
 		printtime(str[i]);
 		i++;
 	}
 }
 
-void	printstuff(char **str, int l)
+void	printstuff(char **str, t_flags flags)
 {
 	int i;
 	int last;
 
 	last = getlength(str);
 	i = 0;
-	if (l)
+	if (flags.l)
 		complexprint(str);
 	else
 	{

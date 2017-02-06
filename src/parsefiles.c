@@ -16,7 +16,7 @@ int is_FILE(const char *path)
 	return (S_ISREG(path_stat.st_mode));
 }
 
-char	**parsefiles(char *path, int a)
+char	**parsefiles(char *path, t_flags flags)
 {
 	DIR				*dir;
 	struct dirent	*dp;
@@ -29,7 +29,7 @@ char	**parsefiles(char *path, int a)
 		ft_printf("Error");
 	while ((dp = readdir(dir)))
 	{
-		if ((a) || (!a && dp->d_name[0] != '.'))
+		if ((flags.a) || (!flags.a && dp->d_name[0] != '.'))
 			*str++ = dp->d_name;
 	}
 	closedir(dir);
