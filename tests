@@ -1,0 +1,12 @@
+ls -a
+ls -r
+ls -a -r
+ls -a
+ls -
+ls -r inc src
+ls ../.../../
+ls -.r
+ls blah
+ls inc blah src
+ls -1
+ls -R
