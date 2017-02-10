@@ -42,8 +42,9 @@ char	**parsefiles(char *path, t_flags flags);
 char	**sort(char **str, t_flags flags);
 int		parseflags(char **str, t_flags *flags);
 int		getlength(char **str);
-void	printstuff(char **str, t_flags flags);
-char	**getinfo(char **argv, char ***file);
+void	printstuff(char **str, t_flags flags, char **complex);
+char	**getdirs(char **argv, char ***file);
+char	**apenddir(char *dir, char **files);
 t_flags	setzero();
 
 #endif

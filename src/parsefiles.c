@@ -2,7 +2,7 @@
 
 int is_DIR(const char *path)
 {
-    struct stat path_stat;
+	struct stat path_stat;
 	
 	stat(path, &path_stat);
 	return (S_ISDIR(path_stat.st_mode));
@@ -10,7 +10,7 @@ int is_DIR(const char *path)
 
 int is_FILE(const char *path)
 {
-    struct stat path_stat;
+	struct stat path_stat;
 	
 	stat(path, &path_stat);
 	return (S_ISREG(path_stat.st_mode));
@@ -36,7 +36,24 @@ char	**parsefiles(char *path, t_flags flags)
 	return ((char **)dup);
 }
 
-char	**getinfo(char **argv, char ***files)
+char	**apenddir(char *dir, char **files)
+{
+	int i;
+	char **stuff;
+
+	i = 0;
+	stuff = (char **)malloc(sizeof(char *) * 70);
+	while (files[i])
+	{
+		stuff[i] = ft_strjoin("/", files[i]);
+		stuff[i] = ft_strjoin(dir, stuff[i]);
+		i++;
+	}
+	stuff[i] = 0;
+	return (stuff);
+}
+
+char	**getdirs(char **argv, char ***files)
 {
 	char *str;
 	char **info;
@@ -50,7 +67,10 @@ char	**getinfo(char **argv, char ***files)
 	{
 		if ((*argv)[0])
 		{
+			printf("%s\n", *argv);
 			str = ft_strjoin(".//", *argv);
+			if ((*argv)[0] == '/')
+				str = *argv;
 			if (is_DIR(str))
 				*info++ = str;
 			else if (is_FILE(str))

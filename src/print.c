@@ -15,7 +15,7 @@ void	printpermissons(struct stat stuff)
 
 }
 
-void	printtime(char *str)
+void	printtime(char *str, char *name)
 {
 		char *time;
 		char *start;
@@ -27,13 +27,14 @@ void	printtime(char *str)
 		time = ctime(&statbuf.st_mtime);
 		time += 3;
 
-		printf("%.*s %s\n", 13, time, str);
+		printf("%.*s %s\n", 13, time, name);
 		free(start);
 }
 
 t_lengths		sizes(char **str)
 {
 	int i;
+	int	count;
 	struct stat statbuf;
 	struct passwd  *pwd;
 	struct group   *grp;
@@ -45,6 +46,7 @@ t_lengths		sizes(char **str)
 	m.name = 0;
 	m.group = 0;
 	m.size = 0;
+	count = 0;
 	while (str[i])
 	{
 		stat(str[i], &statbuf);
@@ -73,11 +75,14 @@ t_lengths		sizes(char **str)
 		if (ft_numlen(statbuf.st_size) > m.size)
 			m.size = ft_numlen(statbuf.st_size);
 		i++;
+		count += statbuf.st_blocks;
 	}
+	if (count)
+		ft_printf("total %d\n", count);
 	return (m);
 }
 
-void	complexprint(char **str)
+void	complexprint(char **str, char **name)
 {
 	struct stat	 statbuf;
 	struct passwd  *pwd;
@@ -104,28 +109,28 @@ void	complexprint(char **str)
 			ft_printf("%*d", m.group + 2, statbuf.st_gid);
 
 		ft_printf("%*d", m.size + 2, (int)statbuf.st_size);
-		printtime(str[i]);
+		printtime(str[i], name[i]);
 		i++;
 	}
 }
 
-void	printstuff(char **str, t_flags flags)
+void	printstuff(char **str, t_flags flags, char **complex)
 {
 	int i;
-	int last;
+	//int last;
 
-	last = getlength(str);
 	i = 0;
 	if (flags.l)
-		complexprint(str);
+		complexprint(complex, str);
 	else
 	{
+		//last = getlength(str);
 		while (str[i])
 		{
 			ft_printf("%s\n", str[i]);
 			i++;
 		}
-		if (i != last)
-			ft_printf("\n");
+		//if (i != last)
+			//ft_printf("\n");
 	}
 }
