@@ -77,8 +77,7 @@ t_lengths		sizes(char **str)
 		i++;
 		count += statbuf.st_blocks;
 	}
-	if (count)
-		ft_printf("total %d\n", count);
+	ft_printf("total %d\n", count);
 	return (m);
 }
 

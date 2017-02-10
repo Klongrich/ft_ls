@@ -1,9 +1,27 @@
 #include "../inc/ls.h"
 
 
+void	printdir(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] == '/' || str[i] == '.')
+	{
+		i++;
+	}
+	ft_printf("./");
+	while (str[i])
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+	ft_putchar(':');
+	ft_putchar('\n');
+}
+
 void	run(char **dirs, char **files, char **argv, t_flags flags)
 {
-		char **dup;
 		char **info;
 		char **appendinfo;
 		int		len;
@@ -15,23 +33,27 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 		lentwo = len;
 		files = sort(files, flags);
 		dirs = sort(dirs, flags);
-		if (files)
-			printstuff(files, flags, files);
 		while (*dirs)
 		{
-			if (len != 1)
-				ft_printf("%~:\n", *dirs);
+			if (flags.recr)
+				printdir(*dirs);
+			else
+			{
+				if (len != 1)
+					ft_printf("%~:\n", *dirs);
+			}
 			info = parsefiles(*dirs, flags);
 			info = sort(info, flags);
 			appendinfo = apenddir(*dirs, info);
 			printstuff(info, flags, appendinfo); 
 			if (flags.recr && appendinfo)
 			{
+				ft_printf("\n");
 				files = (char **)malloc(sizeof(char *) * 50);
-				info = (char **)malloc(sizeof(char *) * 50);
+				info = (char **)malloc(sizeof(char *) * 50); 
 				run(files, info, appendinfo, flags);
 			}
-			if (lentwo != 1)
+			if (lentwo != 1 && !flags.recr)
 				ft_printf("\n");
 			lentwo--;
 			dirs++;
@@ -50,14 +72,15 @@ int		runblank(char **argv, char **files, char **dirs)
 	dirs = getdirs(argv, &files);
 	files = parsefiles(".", flags);
 	files = sort(files, flags);
+	printstuff(files, flags, files);
 	if (flags.recr)
 	{
+		printf("\n");
 		appendinfo = apenddir(".//", files);
 		files = (char **)malloc(sizeof(char *) * 50);
 		info = (char **)malloc(sizeof(char *) * 50);
 		run(files, info, appendinfo, flags);
 	}
-	printstuff(files, flags, files);
 	free(files);
 	return (0);
 }

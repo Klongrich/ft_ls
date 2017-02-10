@@ -45,9 +45,9 @@ char	**apenddir(char *dir, char **files)
 	stuff = (char **)malloc(sizeof(char *) * 70);
 	while (files[i])
 	{
-		stuff[i] = ft_strjoin("/", files[i]);
-		stuff[i] = ft_strjoin(dir, stuff[i]);
-		i++;
+			stuff[i] = ft_strjoin("/", files[i]);
+			stuff[i] = ft_strjoin(dir, stuff[i]);
+			i++;
 	}
 	stuff[i] = 0;
 	return (stuff);
@@ -67,7 +67,7 @@ char	**getdirs(char **argv, char ***files)
 	{
 		if ((*argv)[0])
 		{
-			printf("%s\n", *argv);
+			//printf("%s\n", *argv);
 			str = ft_strjoin(".//", *argv);
 			if ((*argv)[0] == '/')
 				str = *argv;
