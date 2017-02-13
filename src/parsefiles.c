@@ -43,13 +43,17 @@ char	**apenddir(char *dir, char **files)
 
 	i = 0;
 	stuff = (char **)malloc(sizeof(char *) * 70);
-	while (files[i])
+	printf("Dirs: %s\n", dir);
+	if (ft_strcmp(".//.", dir) && ft_strcmp(".//..", dir))
 	{
-			stuff[i] = ft_strjoin("/", files[i]);
-			stuff[i] = ft_strjoin(dir, stuff[i]);
-			i++;
+		while (files[i])
+		{
+				stuff[i] = ft_strjoin("/", files[i]);
+				stuff[i] = ft_strjoin(dir, stuff[i]);
+				i++;
+		}
+		stuff[i] = 0;
 	}
-	stuff[i] = 0;
 	return (stuff);
 }
 
