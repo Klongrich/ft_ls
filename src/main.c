@@ -46,6 +46,7 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 			info = sort(info, flags);
 			appendinfo = apenddir(*dirs, info);
 			printstuff(info, flags, appendinfo); 
+
 			if (flags.recr && appendinfo)
 			{
 				ft_printf("\n");
@@ -53,6 +54,7 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 				info = (char **)malloc(sizeof(char *) * 50); 
 				run(files, info, appendinfo, flags);
 			}
+			
 			if (lentwo != 1 && !flags.recr)
 				ft_printf("\n");
 			lentwo--;

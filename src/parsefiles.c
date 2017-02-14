@@ -36,22 +36,35 @@ char	**parsefiles(char *path, t_flags flags)
 	return ((char **)dup);
 }
 
+int		checkend(char *str)
+{
+	int len;
+
+	len = ft_strlen(str);
+	if (str[len - 1] == '.')
+		return (0);
+	return (1);
+}
+
+
 char	**apenddir(char *dir, char **files)
 {
 	int i;
+	int j;
 	char **stuff;
 
 	i = 0;
+	j = 0;
 	stuff = (char **)malloc(sizeof(char *) * 70);
-	while (files[i])
+	while (files[j])
 	{
-		printf("FILES1: %s\n", stuff[i]);
-		stuff[i] = ft_strjoin("/", files[i]);
-		printf("FILES2: %s\n", stuff[i]);
-		if (ft_strcmp(".//", files[i]))
+		if (checkend(files[j]))
+		{
+			stuff[i] = ft_strjoin("/", files[j]);
 			stuff[i] = ft_strjoin(dir, stuff[i]);
-		printf("FILES3: %s\n\n", stuff[i]);
-		i++;
+			i++;
+		}
+		j++;
 	}
 	stuff[i] = 0;
 	return (stuff);
@@ -71,9 +84,7 @@ char	**getdirs(char **argv, char ***files)
 	{
 		if ((*argv)[0])
 		{
-			printf("ARGV: %s\n", *argv);
-			if ((*argv)[0] != '.')
-				str = ft_strjoin(".//", *argv);
+			str = ft_strjoin(".//", *argv);
 			if ((*argv)[0] == '/')
 				str = *argv;
 			if (is_DIR(str))
