@@ -35,8 +35,12 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 		lentwo = len;
 		files = sort(files, flags);
 		dirs = sort(dirs, flags);
-		info = parsefiles(*dirs, flags);
-		info = sort(info, flags);
+
+		if (*dirs)
+		{
+			info = parsefiles(*dirs, flags);
+			info = sort(info, flags);
+		}
 
 		while (*dirs)
 		{

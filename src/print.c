@@ -139,6 +139,7 @@ void	printstuff(char **str, t_flags flags, char **complex)
 	int i;
 
 	i = 0;
+	printf("");
 	if (flags.l)
 		complexprint(complex, str);
 	else
