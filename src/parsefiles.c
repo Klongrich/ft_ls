@@ -20,32 +20,34 @@ char	**parsefiles(char *path, t_flags flags)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	void			**str;
-	void			**dup;
+	char		**str;
+	int				i;
 
-	str = (void **)malloc(sizeof(void *) * 50);
-	dup = str;
+	i = 0;
+	str = (char **)malloc(sizeof(char *) * 500);
 	if (!(dir = opendir(path)))
 		ft_printf("Error");
 	while ((dp = readdir(dir)))
 	{
 		if ((flags.a) || (!flags.a && dp->d_name[0] != '.'))
-			*str++ = dp->d_name;
+		{
+			str[i] = (char *)malloc(sizeof(char) * ft_strlen(dp->d_name) + 1);
+			str[i][ft_strlen(dp->d_name)] = '\0'; 
+			ft_memcpy(str[i++] , dp->d_name, ft_strlen(dp->d_name));
+		}
 	}
-	closedir(dir);
-	return ((char **)dup);
+	return ((char **)str);
 }
 
 int		checkend(char *str)
 {
-	int len;
+	int len; 
 
 	len = ft_strlen(str);
 	if (str[len - 1] == '.')
 		return (0);
 	return (1);
 }
-
 
 char	**apenddir(char *dir, char **files)
 {
@@ -84,6 +86,7 @@ char	**getdirs(char **argv, char ***files)
 	{
 		if ((*argv)[0])
 		{
+			str = (char *)malloc(sizeof(char *) * 50);
 			str = ft_strjoin(".//", *argv);
 			if ((*argv)[0] == '/')
 				str = *argv;

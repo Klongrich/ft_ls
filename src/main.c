@@ -24,6 +24,8 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 {
 		char **info;
 		char **appendinfo;
+		char **temp;
+		char **aptemp;
 		int		len;
 		int 	lentwo;
 
@@ -33,6 +35,9 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 		lentwo = len;
 		files = sort(files, flags);
 		dirs = sort(dirs, flags);
+		info = parsefiles(*dirs, flags);
+		info = sort(info, flags);
+
 		while (*dirs)
 		{
 			if (flags.recr)
@@ -42,11 +47,12 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 				if (len != 1)
 					ft_printf("%~:\n", *dirs);
 			}
+			temp = info;
 			info = parsefiles(*dirs, flags);
 			info = sort(info, flags);
 			appendinfo = apenddir(*dirs, info);
-			printstuff(info, flags, appendinfo); 
-
+			aptemp = appendinfo;
+			printstuff(info, flags, appendinfo);
 			if (flags.recr && appendinfo)
 			{
 				ft_printf("\n");
@@ -54,7 +60,6 @@ void	run(char **dirs, char **files, char **argv, t_flags flags)
 				info = (char **)malloc(sizeof(char *) * 50); 
 				run(files, info, appendinfo, flags);
 			}
-			
 			if (lentwo != 1 && !flags.recr)
 				ft_printf("\n");
 			lentwo--;

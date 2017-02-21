@@ -2,7 +2,13 @@
 
 void	printpermissons(struct stat stuff)
 {
-	ft_putchar((S_ISDIR(stuff.st_mode)) ? 'd' : '-');
+	ft_putchar((S_ISFIFO(stuff.st_mode)) ? 'p' : '\0');
+	ft_putchar((S_ISCHR(stuff.st_mode)) ? 'c' : '\0');
+	ft_putchar((S_ISDIR(stuff.st_mode)) ? 'd' : '\0');
+	ft_putchar((S_ISBLK(stuff.st_mode)) ? 'b' : '\0');
+	ft_putchar((S_ISREG(stuff.st_mode)) ? '-' : '\0');
+	ft_putchar((S_ISLNK(stuff.st_mode)) ? 'l' : '\0');
+	ft_putchar((S_ISSOCK(stuff.st_mode)) ? 's' : '\0');
 	ft_putchar((stuff.st_mode & S_IRUSR) ? 'r' : '-');
 	ft_putchar((stuff.st_mode & S_IWUSR) ? 'w' : '-');
 	ft_putchar((stuff.st_mode & S_IXUSR) ? 'x' : '-');
@@ -20,7 +26,7 @@ void	printtime(char *str, char *name)
 		char *time;
 		char *start;
 		struct stat statbuf;
-	
+
 		stat(str, &statbuf);
 		time = (char *)malloc(sizeof(char) * 40);
 		start = time;
@@ -54,10 +60,17 @@ t_lengths		sizes(char **str)
 		if (ft_numlen(statbuf.st_nlink) > m.links)
 			m.links = ft_numlen(statbuf.st_nlink);
 		
-		pwd = getpwuid(statbuf.st_uid);
-		if (ft_strlen(pwd->pw_name) > m.name)
-			m.name = ft_strlen(pwd->pw_name);
-		
+		if ((pwd = getpwuid(statbuf.st_uid)))
+		{
+			if (ft_strlen(pwd->pw_name) > m.name)
+				m.name = ft_strlen(pwd->pw_name);
+		}
+		else
+		{
+			if (ft_numlen(statbuf.st_uid) > m.name)
+				m.name = ft_numlen(statbuf.st_uid);
+		}
+
 		if ((grp = getgrgid(statbuf.st_gid)) != NULL)
 		{
 			if (ft_strlen(grp->gr_name) > m.group)
@@ -107,7 +120,15 @@ void	complexprint(char **str, char **name)
 		else
 			ft_printf("%*d", m.group + 2, statbuf.st_gid);
 
-		ft_printf("%*d", m.size + 2, (int)statbuf.st_size);
+		if (S_ISCHR(statbuf.st_mode) || S_ISBLK(statbuf.st_mode) )
+		{
+			ft_printf("%*d", 5, major(statbuf.st_rdev));
+			ft_printf("%*d", 5, minor(statbuf.st_rdev));
+		} 
+		else 
+		{
+			ft_printf("%*d", m.size + 2, (int)statbuf.st_size);
+		} 
 		printtime(str[i], name[i]);
 		i++;
 	}
@@ -116,20 +137,16 @@ void	complexprint(char **str, char **name)
 void	printstuff(char **str, t_flags flags, char **complex)
 {
 	int i;
-	//int last;
 
 	i = 0;
 	if (flags.l)
 		complexprint(complex, str);
 	else
 	{
-		//last = getlength(str);
 		while (str[i])
 		{
 			ft_printf("%s\n", str[i]);
 			i++;
 		}
-		//if (i != last)
-			//ft_printf("\n");
 	}
 }
