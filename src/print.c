@@ -18,6 +18,8 @@ void	printpermissons(struct stat stuff)
 	ft_putchar((stuff.st_mode & S_IROTH) ? 'r' : '-');
 	ft_putchar((stuff.st_mode & S_IWOTH) ? 'w' : '-');
 	ft_putchar((stuff.st_mode & S_IXOTH) ? 'x' : '-');
+	ft_putchar(' ');
+	ft_putchar(' ');
 
 }
 
@@ -108,12 +110,12 @@ void	complexprint(char **str, char **name)
 	{
 		stat(str[i], &statbuf);
 		printpermissons(statbuf);
-		ft_printf("%*d" , m.links + 2 , statbuf.st_nlink);
+		ft_printf("%*d " , m.links, statbuf.st_nlink);
 
 		if ((pwd = getpwuid(statbuf.st_uid)) != NULL)
-			ft_printf("%*s", m.name + 1, pwd->pw_name);
+			ft_printf("%*s", m.name + 2, pwd->pw_name);
 		else
-			ft_printf("%*d", m.name + 1, statbuf.st_uid);
+			ft_printf("%*d", m.name + 2, statbuf.st_uid);
 
 		if ((grp = getgrgid(statbuf.st_gid)) != NULL)
 			ft_printf("%*s", m.group + 2, grp->gr_name);
@@ -127,7 +129,7 @@ void	complexprint(char **str, char **name)
 		} 
 		else 
 		{
-			ft_printf("%*d", m.size + 2, (int)statbuf.st_size);
+			ft_printf("%*d", m.size, (int)statbuf.st_size);
 		} 
 		printtime(str[i], name[i]);
 		i++;

@@ -22,13 +22,12 @@ void	dformatstar(char **str, int num, int arg)
 		ft_putnbr(arg);
 	else
 	{
-
-		ft_putnbr(arg);
 		while (i)
 		{
 			ft_putchar(' ');
 			i--;
 		}
+		ft_putnbr(arg);
 	}
 }
 
