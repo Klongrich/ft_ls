@@ -64,9 +64,9 @@ char	**sort(char **str, t_flags flags)
 			if ((flags.r && strcmp(str[i], str[j]) < 0) || 
 				(!flags.r && strcmp(str[i], str[j]) > 0))
 			{
-				strcpy(temp, str[i]);
-				strcpy(str[i], str[j]);
-				strcpy(str[j], temp);
+				ft_strcpy(temp, str[i]);
+				ft_strcpy(str[i], str[j]);
+				ft_strcpy(str[j], temp);
 			}
 		}	
 	}

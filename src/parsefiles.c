@@ -31,7 +31,7 @@ char	**parsefiles(char *path, t_flags flags)
 	{
 		if ((flags.a) || (!flags.a && dp->d_name[0] != '.'))
 		{
-			str[i] = (char *)malloc(sizeof(char) * ft_strlen(dp->d_name) + 1);
+			str[i] = (char *)malloc(sizeof(char) * ft_strlen(dp->d_name) + 500);
 			str[i][ft_strlen(dp->d_name)] = '\0'; 
 			ft_memcpy(str[i++] , dp->d_name, ft_strlen(dp->d_name));
 		}
@@ -57,7 +57,7 @@ char	**apenddir(char *dir, char **files)
 
 	i = 0;
 	j = 0;
-	stuff = (char **)malloc(sizeof(char *) * 70);
+	stuff = (char **)malloc(sizeof(char *) * 700);
 	while (files[j])
 	{
 		if (checkend(files[j]))
@@ -80,13 +80,13 @@ char	**getdirs(char **argv, char ***files)
 	int  i;
 
 	i = 0;
-	info = (char **)malloc(sizeof(char *) * 50);
+	info = (char **)malloc(sizeof(char *) * 500);
 	dup = info;
 	while (*argv)
 	{
 		if ((*argv)[0])
 		{
-			str = (char *)malloc(sizeof(char *) * 50);
+			str = (char *)malloc(sizeof(char *) * 500);
 			str = ft_strjoin(".//", *argv);
 			if ((*argv)[0] == '/')
 				str = *argv;
