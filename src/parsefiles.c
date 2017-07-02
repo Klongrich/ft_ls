@@ -1,39 +1,33 @@
 #include "../inc/ls.h"
 
-int is_DIR(const char *path)
+int		ft_argv_len(char **argv)
 {
-	struct stat path_stat;
-	
-	stat(path, &path_stat);
-	return (S_ISDIR(path_stat.st_mode));
-}
+	int i;
 
-int is_FILE(const char *path)
-{
-	struct stat path_stat;
-	
-	stat(path, &path_stat);
-	return (S_ISREG(path_stat.st_mode));
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
 }
 
 char	**parsefiles(char *path, t_flags flags)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	char		**str;
+	char			**str;
 	int				i;
 
 	i = 0;
-	str = (char **)malloc(sizeof(char *) * 500);
+	str = malloc(sizeof(*str) * 500);
 	if (!(dir = opendir(path)))
 		ft_printf("Error");
 	while ((dp = readdir(dir)))
 	{
 		if ((flags.a) || (!flags.a && dp->d_name[0] != '.'))
 		{
-			str[i] = (char *)malloc(sizeof(char) * ft_strlen(dp->d_name) + 500);
-			str[i][ft_strlen(dp->d_name)] = '\0'; 
-			ft_memcpy(str[i++] , dp->d_name, ft_strlen(dp->d_name));
+			str[i] = malloc(sizeof(str[i]) * sizeof(dp->d_name) + 1);
+			str[i][ft_strlen(dp->d_name)] = '\0';
+			ft_memcpy(str[i++], dp->d_name, ft_strlen(dp->d_name));
 		}
 	}
 	return ((char **)str);
@@ -41,29 +35,34 @@ char	**parsefiles(char *path, t_flags flags)
 
 int		checkend(char *str)
 {
-	int len; 
+	int len;
 
 	len = ft_strlen(str);
-	if (str[len - 1] == '.')
+	if (!ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
 		return (0);
 	return (1);
 }
 
-char	**apenddir(char *dir, char **files)
+char	**apenddir(char *dir, char **files, t_flags flags)
 {
-	int i;
-	int j;
-	char **stuff;
+	int		i;
+	int		j;
+	char	**stuff;
 
 	i = 0;
 	j = 0;
-	stuff = (char **)malloc(sizeof(char *) * 700);
+	stuff = malloc(sizeof(*stuff) * ft_argv_len(files) + 1);
 	while (files[j])
 	{
-		if (checkend(files[j]))
+		if (checkend(files[j]) || !flags.recr)
 		{
-			stuff[i] = ft_strjoin("/", files[j]);
-			stuff[i] = ft_strjoin(dir, stuff[i]);
+			if (!strcmp(".//", dir))
+				stuff[i] = ft_strjoin(".//", files[j]);
+			else
+			{
+				stuff[i] = ft_strjoin("/", files[j]);
+				stuff[i] = ft_strjoin(dir, stuff[i]);
+			}
 			i++;
 		}
 		j++;
@@ -72,34 +71,36 @@ char	**apenddir(char *dir, char **files)
 	return (stuff);
 }
 
+void	printerror(char *str)
+{
+	write(2, "ls: ", 4);
+	write(2, str, ft_strlen(str));
+	write(2, ": No such file or directory\n", 28);
+}
+
 char	**getdirs(char **argv, char ***files)
 {
-	char *str;
-	char **info;
-	char **dup;
-	int  i;
+	char	*str;
+	char	**info;
+	char	**dup;
+	int		i;
 
 	i = 0;
-	info = (char **)malloc(sizeof(char *) * 500);
+	info =	malloc(sizeof(*info) * ft_argv_len(argv) + 1);
 	dup = info;
 	while (*argv)
 	{
 		if ((*argv)[0])
 		{
-			str = (char *)malloc(sizeof(char *) * 500);
-			str = ft_strjoin(".//", *argv);
+			str = *argv;
 			if ((*argv)[0] == '/')
 				str = *argv;
-			if (is_DIR(str))
+			if (is_dir(str))
 				*info++ = str;
-			else if (is_FILE(str))
+			else if (is_file(str))
 				(*files)[i++] = str;
 			else
-			{
-				write(2,"ls: ", 4); 
-				write(2, *argv, ft_strlen(*argv));
-				write(2, ": No such file or directory\n", 28);
-			}
+				printerror(*argv);
 		}
 		argv++;
 	}
