@@ -1,5 +1,5 @@
 NAME = ft_ls
-OBJ = main.o sort.o parseflags.o parsefiles.o print.o
+OBJ = main.o sort.o parseflags.o parsefiles.o print.o mainhelper.o parsefileshelper.o printhelper.o
 INC = inc/ls.h
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
@@ -11,7 +11,7 @@ all: $(NAME)
 	@gcc $(CFLAGS) $(INC) -c $< $(LIBH)
 
 $(NAME): $(OBJ)
-	@gcc $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@gcc -g $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
 clean:
 	@rm -f $(OBJ)
